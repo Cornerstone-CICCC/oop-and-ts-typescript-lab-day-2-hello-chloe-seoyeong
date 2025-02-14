@@ -73,7 +73,6 @@ class Gradebook {
                 return student;
             }
         });
-        console.log(this.students);
         return `${studentName}'s grade of ${subject} updated to ${newGrade}`;
     }
 }

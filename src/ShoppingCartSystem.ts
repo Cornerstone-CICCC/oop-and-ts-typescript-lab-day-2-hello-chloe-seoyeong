@@ -32,7 +32,7 @@ class ShoppingCart<T extends CartItem> {
     return `${product.name} added to cart.`;
   }
 
-  updateQuantity(id: number, qty: number) {
+  updateQuantity(id: number, qty: number): string {
     this.cart = this.cart.map(item => {
       if(item.id === id) {
         return {
@@ -56,7 +56,7 @@ class ShoppingCart<T extends CartItem> {
     return `Total costs of items are ${total}`;
   }
 
-  getProductsOfCategory(category): T[] {
+  getProductsOfCategory(category: string): T[] {
     let sortProduct: T[] = [];
     this.cart.forEach(item => {
       if(item.category === category) {
@@ -66,7 +66,7 @@ class ShoppingCart<T extends CartItem> {
     return sortProduct;
   }
 
-  removeFromCart(id) {
+  removeFromCart(id: number): string {
     let removeItem: string = "";
     this.cart = this.cart.filter(item => {
       if(item.id !== id) {

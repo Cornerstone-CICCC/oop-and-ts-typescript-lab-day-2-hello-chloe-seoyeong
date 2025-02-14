@@ -22,12 +22,12 @@ interface Student {
 class Gradebook<T extends Student> {
   students: T[] = []
 
-  addStudent(student): string {
+  addStudent(student: T): string {
     this.students.push(student)
     return `${student.name} added to the gradebook.`;
   }
 
-  addGrade(id, grade) {
+  addGrade(id: number, grade: Grade): string {
     this.students = this.students.map(student => {
       if(student.id === id) {
         student.grades.push(grade);
@@ -39,7 +39,7 @@ class Gradebook<T extends Student> {
     return `Grade recorded for ${grade.subject}`;
   }
 
-  getAverageGrade(id) {
+  getAverageGrade(id: number): string {
     let average: number = 0;
     let total: number = 0;
     let studentName: string = "";
@@ -55,7 +55,7 @@ class Gradebook<T extends Student> {
     return `${studentName}'s average grade is ${average}.`;
   }
 
-  getStudentGrades(id) {
+  getStudentGrades(id: number): Grade[] {
     const allGrade: Grade[] = [];
     this.students.forEach(student => {
       if(student.id === id) {
@@ -67,7 +67,7 @@ class Gradebook<T extends Student> {
     return allGrade
   }
 
-  updateSubjectGrade(id, subject, newGrade) {
+  updateSubjectGrade(id: number, subject: string, newGrade: number): string {
     let studentName: string = "";
     this.students = this.students.map(student => {
       if(student.id === id) {
@@ -87,7 +87,6 @@ class Gradebook<T extends Student> {
         return student;
       }
     })
-    console.log(this.students)
     return `${studentName}'s grade of ${subject} updated to ${newGrade}`;
   }
 }

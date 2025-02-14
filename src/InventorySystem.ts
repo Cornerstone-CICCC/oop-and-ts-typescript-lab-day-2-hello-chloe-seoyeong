@@ -23,7 +23,7 @@ class InventoryManager<T extends Product> {
     return `Product ${product.name} added successfully!`;
   }
 
-  updateProduct(id, update) {
+  updateProduct(id: number, update: object): string {
     this.products = this.products.map(product => {
       if(product.id === id) {
         const updateKey = Object.keys(update);
@@ -42,7 +42,7 @@ class InventoryManager<T extends Product> {
     return `Product ${id} updated successfully!`;
   }
 
-  getProduct(id: number) {
+  getProduct(id: number): T | string {
     const item = this.products.find(product => {
       if(product.id === id) {
         return product
@@ -55,11 +55,11 @@ class InventoryManager<T extends Product> {
     }
   }
 
-  getAllProducts() {
+  getAllProducts(): T[] {
     return this.products;
   }
 
-  removeProduct(id) {
+  removeProduct(id: number): string {
     this.products = this.products.filter(product => product.id !== id);
     console.log(this.products)
     return `Product ${id} removed successfully!`;
