@@ -9,6 +9,12 @@ function AgeRestriction(minAge: number) {
   return function <T extends { new (...args: any[]): {} }>(target: T, context: ClassDecoratorContext) {
     return class extends target {
       // YOUR CODE HERE
+      constructor(...args: any[]) {
+        super(...args)
+        if(args[1] < minAge) {
+          throw Error (`🚫 Access Denied: ${args[0]} is under ${minAge} and cannot enter the zoo!`)
+        }
+      }
     };
   };
 }
@@ -18,15 +24,22 @@ class ZooGuest {
   name: string;
   age: number;
 
-  constructor(name: string, age: number) {}
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
 
   enterZoo() {
     // Add welcome message
+    return `🎟️ Welcome to the zoo, ${this.name}! Enjoy your visit.`;
   }
 }
 
 // Test cases
 const guest1 = new ZooGuest("Alice", 15); // Should allow entry
 console.log(guest1.enterZoo()); // "🎟️ Welcome to the zoo, Alice! Enjoy your visit."
+
+const guest3 = new ZooGuest("Mary", 40); // Should allow entry
+console.log(guest3.enterZoo()); // "🎟️ Welcome to the zoo, Alice! Enjoy your visit."
 
 const guest2 = new ZooGuest("Bob", 10); // Should throw an error: "🚫 Access Denied: Bob is under 12 and cannot enter the zoo!"
