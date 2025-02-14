@@ -9,26 +9,53 @@
 // 6. Implement a method `updateItem` that updates an item by its property value.
 
 class MyStorage<T, U> {
-  items = []
+  items: T[] = []
+  message: U;
 
-  addItem(item) {
-
+  addItem(item): string {
+    this.items.push(item);
+    if(typeof item === "number") {
+      return `${item} added to storage`;
+    } else {
+      return `User ${item.name} Added`;
+    }
   }
 
-  getItems() {
-
+  getItems(): T[] {
+    return this.items;
   }
 
-  removeItem(id) {
-
+  removeItem(id): string {
+    this.items = this.items.filter(item => {
+      if(typeof item === "number") {
+        return item !== id;
+      }
+    })
+    return `${id} removed from storage.`;
   }
 
   findItem(prop, val) {
-
+    const storageItem = this.items.filter(item => {
+      if(typeof item !== "number" && item[prop] === val) {
+        return item
+      }
+    })
+    return storageItem[0]
   }
 
   updateItem(prop, id, update) {
-
+    let previousName: string;
+    this.items = this.items.map(item => {
+      if(typeof item !== "number") {
+        if(typeof item !== "number" && item[prop] === id) {
+          previousName = item["name"];
+          return update;
+        } else {
+          return item
+        }
+      }
+    })
+    return `${previousName} updated successfully`;
   }
 }
 
@@ -40,6 +67,8 @@ console.log(numberStrStorage.addItem(20)); // "20 added to storage."
 console.log(numberStrStorage.getItems()); // [10, 20]
 console.log(numberStrStorage.removeItem(10)); // "10 removed from storage."
 console.log(numberStrStorage.getItems()); // [20]
+
+console.log("////////////////////")
 
 const userStorage = new MyStorage<{ id: number; name: string }, string>();
 
