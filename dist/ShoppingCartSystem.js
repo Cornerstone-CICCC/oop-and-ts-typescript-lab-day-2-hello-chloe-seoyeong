@@ -69,8 +69,11 @@ class ShoppingCart {
 const cart = new ShoppingCart();
 console.log(cart.addToCart({ id: 1, name: "Headphones", price: 50, quantity: 1, category: Category.Electronics })); // "Headphones added to cart."
 console.log(cart.addToCart({ id: 2, name: "Keyboard", price: 100, quantity: 1, category: Category.Electronics })); // "Keyboard added to cart."
-console.log(cart.addToCart({ id: 3, name: "Pomelo", price: 5, quantity: 5, category: Category.Fruit })); // "Keyboard added to cart."
+console.log(cart.addToCart({ id: 3, name: "Pomelo", price: 5, quantity: 5, category: Category.Fruit })); // "Pomelo added to cart."
+console.log(cart.addToCart({ id: 4, name: "Carrot", price: 15, quantity: 7, category: Category.Vegetable })); // "Carrot added to cart."
+console.log(cart.addToCart({ id: 5, name: "Grapefruit", price: 45, quantity: 2, category: Category.Fruit })); // "Pomelo added to cart."
 console.log(cart.updateQuantity(1, 3)); // "Updated quantity of Headphones to 3."
 console.log(cart.getProductsOfCategory("Electronics")); // Should return all electronics
+console.log(cart.getProductsOfCategory("Fruit"));
 console.log(cart.getTotalPrice()); // Should return the total cost of items
 console.log(cart.removeFromCart(2)); // "Keyboard removed from cart."

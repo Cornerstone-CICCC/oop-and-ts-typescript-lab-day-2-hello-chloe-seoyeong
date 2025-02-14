@@ -67,11 +67,8 @@ class Gradebook {
                         return item;
                     }
                 });
-                return student;
             }
-            else {
-                return student;
-            }
+            return student;
         });
         return `${studentName}'s grade of ${subject} updated to ${newGrade}`;
     }

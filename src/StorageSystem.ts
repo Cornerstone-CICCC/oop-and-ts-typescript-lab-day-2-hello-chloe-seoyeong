@@ -9,34 +9,33 @@
 // 6. Implement a method `updateItem` that updates an item by its property value.
 
 class MyStorage<T, U> {
-  items: T[] = []
-  message: U;
+  items: (T | U)[] = []
 
-  addItem(item: T): string {
+  addItem(item: (T | U)): string {
     this.items.push(item);
-    if(typeof item === "number") {
-      return `${item} added to storage`;
-    } else {
+    if(typeof item === "object"){
       return `User ${item["name"]} Added`; // I don't why item["name"] works, and item.name doesn't work.
+    } else {
+      return `${item} added to storage`;
     }
   }
 
-  getItems(): T[] {
+  getItems(): (T | U)[] {
     return this.items;
   }
 
   removeItem(id: number): string {
     this.items = this.items.filter(item => {
-      if(typeof item === "number") {
+      if(typeof item === "number" || "string") {
         return item !== id;
       }
     })
     return `${id} removed from storage.`;
   }
 
-  findItem(prop: string, val: string): T {
+  findItem(prop: string, val: string): (T | U) {
     const storageItem = this.items.filter(item => {
-      if(typeof item !== "number" && item[prop] === val) {
+      if(item[prop] === val) {
         return item
       }
     })
@@ -46,8 +45,8 @@ class MyStorage<T, U> {
   updateItem(prop: string, id: number, update: T): string {
     let previousName: string;
     this.items = this.items.map(item => {
-      if(typeof item !== "number") {
-        if(typeof item !== "number" && item[prop] === id) {
+      if(typeof item === "object") {
+        if(item[prop] === id) {
           previousName = item["name"];
           return update;
         } else {
@@ -55,7 +54,7 @@ class MyStorage<T, U> {
         }
       }
     })
-    return `${previousName} updated successfully`;
+    return previousName ? `${previousName} updated successfully` : `Can not update.`;
   }
 }
 
@@ -64,9 +63,10 @@ const numberStrStorage = new MyStorage<number, string>();
 
 console.log(numberStrStorage.addItem(10)); // "10 added to storage."
 console.log(numberStrStorage.addItem(20)); // "20 added to storage."
-console.log(numberStrStorage.getItems()); // [10, 20]
+console.log(numberStrStorage.addItem("30"));
+console.log(numberStrStorage.getItems()); // [10, 20, '30']
 console.log(numberStrStorage.removeItem(10)); // "10 removed from storage."
-console.log(numberStrStorage.getItems()); // [20]
+console.log(numberStrStorage.getItems()); // [20, '30']
 
 console.log("////////////////////")
 
@@ -77,4 +77,5 @@ console.log(userStorage.addItem({ id: 2, name: "Bob" })); // "User Bob added."
 console.log(userStorage.getItems()); // [{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }]
 console.log(userStorage.findItem("name", "Alice")); // { id: 1, name: "Alice" }
 console.log(userStorage.updateItem("id", 1, { id: 1, name: "Alice Updated" })); // "Alice updated successfully."
+console.log(userStorage.updateItem("id", 3, { id: 3, name: "John Updated" })); 
 console.log(userStorage.getItems()); // [{ id: 1, name: "Alice Updated" }, { id: 2, name: "Bob" }]

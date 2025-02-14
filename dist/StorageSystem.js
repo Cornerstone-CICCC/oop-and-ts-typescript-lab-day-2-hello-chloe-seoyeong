@@ -9,14 +9,13 @@
 // 6. Implement a method `updateItem` that updates an item by its property value.
 class MyStorage {
     items = [];
-    message;
     addItem(item) {
         this.items.push(item);
-        if (typeof item === "number") {
-            return `${item} added to storage`;
+        if (typeof item === "object") {
+            return `User ${item["name"]} Added`; // I don't why item["name"] works, and item.name doesn't work.
         }
         else {
-            return `User ${item["name"]} Added`; // I don't why item["name"] works, and item.name doesn't work.
+            return `${item} added to storage`;
         }
     }
     getItems() {
@@ -24,7 +23,7 @@ class MyStorage {
     }
     removeItem(id) {
         this.items = this.items.filter(item => {
-            if (typeof item === "number") {
+            if (typeof item === "number" || "string") {
                 return item !== id;
             }
         });
@@ -32,7 +31,7 @@ class MyStorage {
     }
     findItem(prop, val) {
         const storageItem = this.items.filter(item => {
-            if (typeof item !== "number" && item[prop] === val) {
+            if (item[prop] === val) {
                 return item;
             }
         });
@@ -41,8 +40,8 @@ class MyStorage {
     updateItem(prop, id, update) {
         let previousName;
         this.items = this.items.map(item => {
-            if (typeof item !== "number") {
-                if (typeof item !== "number" && item[prop] === id) {
+            if (typeof item === "object") {
+                if (item[prop] === id) {
                     previousName = item["name"];
                     return update;
                 }
@@ -51,16 +50,17 @@ class MyStorage {
                 }
             }
         });
-        return `${previousName} updated successfully`;
+        return previousName ? `${previousName} updated successfully` : `Can not update.`;
     }
 }
 // Test cases
 const numberStrStorage = new MyStorage();
 console.log(numberStrStorage.addItem(10)); // "10 added to storage."
 console.log(numberStrStorage.addItem(20)); // "20 added to storage."
-console.log(numberStrStorage.getItems()); // [10, 20]
+console.log(numberStrStorage.addItem("30"));
+console.log(numberStrStorage.getItems()); // [10, 20, '30']
 console.log(numberStrStorage.removeItem(10)); // "10 removed from storage."
-console.log(numberStrStorage.getItems()); // [20]
+console.log(numberStrStorage.getItems()); // [20, '30']
 console.log("////////////////////");
 const userStorage = new MyStorage();
 console.log(userStorage.addItem({ id: 1, name: "Alice" })); // "User Alice added."
@@ -68,4 +68,5 @@ console.log(userStorage.addItem({ id: 2, name: "Bob" })); // "User Bob added."
 console.log(userStorage.getItems()); // [{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }]
 console.log(userStorage.findItem("name", "Alice")); // { id: 1, name: "Alice" }
 console.log(userStorage.updateItem("id", 1, { id: 1, name: "Alice Updated" })); // "Alice updated successfully."
+console.log(userStorage.updateItem("id", 3, { id: 3, name: "John Updated" }));
 console.log(userStorage.getItems()); // [{ id: 1, name: "Alice Updated" }, { id: 2, name: "Bob" }]
