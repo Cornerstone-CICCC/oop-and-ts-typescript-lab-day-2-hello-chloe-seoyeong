@@ -16,7 +16,7 @@ class MyStorage {
             return `${item} added to storage`;
         }
         else {
-            return `User ${item.name} Added`;
+            return `User ${item["name"]} Added`; // I don't why item["name"] works, and item.name doesn't work.
         }
     }
     getItems() {

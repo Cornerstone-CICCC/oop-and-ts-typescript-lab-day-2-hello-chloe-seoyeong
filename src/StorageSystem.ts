@@ -12,12 +12,12 @@ class MyStorage<T, U> {
   items: T[] = []
   message: U;
 
-  addItem(item): string {
+  addItem(item: T): string {
     this.items.push(item);
     if(typeof item === "number") {
       return `${item} added to storage`;
     } else {
-      return `User ${item.name} Added`;
+      return `User ${item["name"]} Added`; // I don't why item["name"] works, and item.name doesn't work.
     }
   }
 
@@ -25,7 +25,7 @@ class MyStorage<T, U> {
     return this.items;
   }
 
-  removeItem(id): string {
+  removeItem(id: number): string {
     this.items = this.items.filter(item => {
       if(typeof item === "number") {
         return item !== id;
@@ -34,7 +34,7 @@ class MyStorage<T, U> {
     return `${id} removed from storage.`;
   }
 
-  findItem(prop, val) {
+  findItem(prop: string, val: string): T {
     const storageItem = this.items.filter(item => {
       if(typeof item !== "number" && item[prop] === val) {
         return item
@@ -43,7 +43,7 @@ class MyStorage<T, U> {
     return storageItem[0]
   }
 
-  updateItem(prop, id, update) {
+  updateItem(prop: string, id: number, update: T): string {
     let previousName: string;
     this.items = this.items.map(item => {
       if(typeof item !== "number") {
